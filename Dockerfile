@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y  \
     gstreamer1.0-plugins-bad \
     gstreamer1.0-plugins-base \
     gstreamer1.0-plugins-ugly  \
+    gfortran \
     libatlas3-base \
     libgstreamer1.0-dev \
     libtool-bin \
@@ -51,7 +52,7 @@ RUN git clone https://github.com/kaldi-asr/kaldi && \
     make -j $(nproc) && \
     ./install_portaudio.sh && \
     /opt/kaldi/tools/extras/install_mkl.sh && \
-    cd /opt/kaldi/src && ./configure --shared && \
+    cd /opt/kaldi/src && ./configure --mathlib=ATLAS --shared && \
     sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk && \
     make clean -j $(nproc) && make -j $(nproc) depend && make -j $(nproc) && \
     cd /opt/kaldi/src/online && make depend -j $(nproc) && make -j $(nproc) && \
@@ -66,12 +67,12 @@ RUN git clone https://github.com/kaldi-asr/kaldi && \
     rm -rf /opt/kaldi/.git && \
     rm -rf /opt/kaldi/egs/ /opt/kaldi/windows/ /opt/kaldi/misc/ && \
     find /opt/kaldi/src/ -type f -not -name '*.so' -delete && \
-    find /opt/kaldi/tools/ -type f \( -not -name '*.so' -and -not -name '*.so*' \) -delete && \
-    cd /opt && git clone https://github.com/alumae/kaldi-gstreamer-server.git && \
-    rm -rf /opt/kaldi-gstreamer-server/.git/ && \
-    rm -rf /opt/kaldi-gstreamer-server/test/
+    find /opt/kaldi/tools/ -type f \( -not -name '*.so' -and -not -name '*.so*' \) -delete && cd /opt
 
 COPY start.sh stop.sh /opt/
+COPY kaldi-gstreamer-server /opt/kaldi-gstreamer-server/
+
+RUN pip install futures
 
 RUN chmod +x /opt/start.sh && \
     chmod +x /opt/stop.sh 
