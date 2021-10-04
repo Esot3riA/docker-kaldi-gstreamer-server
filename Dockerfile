@@ -47,7 +47,7 @@ RUN wget http://www.digip.org/jansson/releases/jansson-2.7.tar.bz2 && \
     echo "/usr/local/lib" >> /etc/ld.so.conf.d/jansson.conf && ldconfig && \
     rm /opt/jansson-2.7.tar.bz2 && rm -rf /opt/jansson-2.7
 
-RUN git clone https://github.com/kaldi-asr/kaldi && \
+RUN git clone https://github.com/DaHye9/kaldi && \
     cd /opt/kaldi/tools && \
     make -j $(nproc) && \
     ./install_portaudio.sh && \
