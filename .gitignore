@@ -1,5 +1,4 @@
-# Pycharm
 .idea/
-
-# venv
 venv/
+*.pyc
+kaldi-gstreamer-server/kaldigstserver/tmp
