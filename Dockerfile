@@ -58,7 +58,7 @@ RUN git clone https://github.com/DaHye9/kaldi && \
     cd /opt/kaldi/src/online && make depend -j $(nproc) && make -j $(nproc) && \
     cd /opt/kaldi/src/gst-plugin && sed -i 's/-lmkl_p4n//g' Makefile && make depend -j $(nproc) && make -j $(nproc) && \
     cd /opt && \
-    git clone https://github.com/alumae/gst-kaldi-nnet2-online.git && \
+    git clone https://github.com/DaHye9/gst-kaldi-nnet2-online.git && \
     cd /opt/gst-kaldi-nnet2-online/src && \
     sed -i '/KALDI_ROOT?=\/home\/tanel\/tools\/kaldi-trunk/c\KALDI_ROOT?=\/opt\/kaldi' Makefile && \
     make depend -j $(nproc) && make -j $(nproc) && \
@@ -69,10 +69,11 @@ RUN git clone https://github.com/DaHye9/kaldi && \
     find /opt/kaldi/src/ -type f -not -name '*.so' -delete && \
     find /opt/kaldi/tools/ -type f \( -not -name '*.so' -and -not -name '*.so*' \) -delete && cd /opt
 
-COPY start.sh stop.sh /opt/
+COPY start.sh start_worker.sh stop.sh /opt/
 COPY kaldi-gstreamer-server /opt/kaldi-gstreamer-server/
 
 RUN pip install futures
 
 RUN chmod +x /opt/start.sh && \
-    chmod +x /opt/stop.sh 
+    chmod +x /opt/start_worker.sh && \
+    chmod +x /opt/stop.sh
