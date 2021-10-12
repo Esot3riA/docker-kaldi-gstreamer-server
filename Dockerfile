@@ -69,10 +69,24 @@ RUN git clone https://github.com/DaHye9/kaldi && \
     find /opt/kaldi/src/ -type f -not -name '*.so' -delete && \
     find /opt/kaldi/tools/ -type f \( -not -name '*.so' -and -not -name '*.so*' \) -delete && cd /opt
 
+RUN pip install futures
+
+# Build Python3.7 and pip3
+#RUN mkdir /opt/python3 && cd /opt/python3 && \
+#    apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev \
+#        libnss3-dev libssl-dev libreadline-dev libffi-dev curl libbz2-dev && \
+#    curl -O https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tar.xz && \
+#    tar -xf Python-3.7.3.tar.xz && \
+#    cd Python-3.7.3 && ./configure --enable-optimizations && make -j 6 && \
+#    make altinstall
+#
+#RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+#    python3.7 get-pip.py
+#
+#RUN pip3 install git+https://github.com/haven-jeon/PyKoSpacing.git
+
 COPY start.sh start_worker.sh stop.sh /opt/
 COPY kaldi-gstreamer-server /opt/kaldi-gstreamer-server/
-
-RUN pip install futures
 
 RUN chmod +x /opt/start.sh && \
     chmod +x /opt/start_worker.sh && \
