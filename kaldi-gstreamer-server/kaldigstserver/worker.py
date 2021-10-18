@@ -103,8 +103,8 @@ class ServerWebsocket(WebSocketClient):
             self.num_segments = 0
             self.decoder_pipeline.init_request(self.request_id, content_type)
             self.last_decoder_message = time.time()
-            thread.start_new_thread(self.guard_timeout, ())
-            logger.info("%s: Started timeout guard" % self.request_id)
+            # thread.start_new_thread(self.guard_timeout, ())
+            # logger.info("%s: Started timeout guard" % self.request_id)
             logger.info("%s: Initialized request" % self.request_id)
             self.state = self.STATE_INITIALIZED
         elif m.data == "EOS":
